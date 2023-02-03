@@ -1,0 +1,64 @@
+2/3/23
+
+Legend:
+* Required property
+
+Inventory:
+	*id {UUIDField}
+	user {User}
+	- ex. Tools, video games, toys, and other groups of items
+	- Can save inventory file onto User's system in different formats (ex. json, csv, etc.)
+	so they can be transferred spreadsheet or other programs.
+
+InventoryGroup:
+	inventory {ForeignKey-Inventory}
+	items {ManyToManyKey-Item}
+	name {CharField}
+
+Item:
+	*id {UUIDField}:
+	*name {CharField}: 
+	modelId {CharField}:
+	price {ForeignKey-Price}:
+	purchaseDate {DateField}: 
+	images {ManyToManyField-ImageField}: 
+	description {TextField}:
+	slug {SlugField} - Page displays info about item
+	state {ItemStateEnum} - Owned/InPossession, Borrowed, Gifted, Sold, ThrownAway
+
+ActionItem:
+	*id {UUIDField}:
+	*item {OneToOneKey-Item}:
+	date {DateField}:
+	notes {TextField}:
+	reason {TextField}:
+
+BorrowItem extends ActionItem:
+	*reciever {ForeignKey-Person}:
+	returnPromiseDate {DateField}:
+	hasReturned {BooleanField}:
+	- Page displays info about borrowed item (url uses id)
+
+GiftedItem extends ActionItem:
+	*reciever {ForeignKey-Person}:
+
+SoldItem extends ActionItem:
+	*reciever {ForeignKey-Person}:
+
+ThrownAwayItem extends ActionItem:
+
+Person
+	*id {UUIDField}:
+	*fullName {CharField}
+	phoneNumber {CharField}
+	email {EmailField}
+	thumbnail {ImageField}
+	slug {SlugField} - Page displays info and borrowed item history
+
+Currency:
+	*name {CharField}: ex. American Dollar, British Pound, etc.
+	*factor {FloatField}: Multiplier of American dollar value
+
+Price:
+	*currency {Currency}:
+	*baseAmount {FloatField}: Value in corresponding currency
