@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     # PostgreSQL
     'django.contrib.postgres',
     # Custom Apps
+    'items.apps.ItemsConfig',
     'users.apps.UsersConfig',
 ]
 

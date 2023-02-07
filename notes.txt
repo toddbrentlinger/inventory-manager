@@ -54,6 +54,7 @@ Person
 	email {EmailField}
 	thumbnail {ImageField}
 	slug {SlugField} - Page displays info and borrowed item history
+    - Could have property to reference another User and null if NOT a User
 
 Currency:
 	*name {CharField}: ex. American Dollar, British Pound, etc.
