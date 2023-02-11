@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from .models import Item
 
 def item_detail_view(request, pk):
     item = get_object_or_404(Item, pk=pk)
