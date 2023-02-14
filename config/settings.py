@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     # Custom Apps
     'inventories.apps.InventoriesConfig',
     'items.apps.ItemsConfig',
+    'people.apps.PeopleConfig',
     'users.apps.UsersConfig',
 ]
 
