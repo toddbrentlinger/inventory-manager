@@ -1,5 +1,6 @@
 import uuid
 from django.db import models
+from django.urls import reverse
 
 class Inventory(models.Model):
     # Fields
@@ -17,6 +18,9 @@ class Inventory(models.Model):
     def __str__(self):
         return self.id
 
+    def get_absolute_url(self):
+        return reverse('inventory-detail-view', args=[str(self.id)])
+
 class InventoryGroup(models.Model):
      # Fields
 
@@ -24,13 +28,17 @@ class InventoryGroup(models.Model):
     inventory = models.ForeignKey(Inventory, on_delete=models.CASCADE, help_text='Enter inventory that the inventory group belongs to (required).')
     items = models.ManyToManyField('items.Item', blank=True, help_text='Enter items that belong in the inventory group.')
     name = models.CharField(max_length=50, blank=True, help_text='Enter name of the inventory group.')
+    last_modified = models.DateTimeField(auto_now=True)
 
     # Metadata
 
     class Meta:
-        pass
+        ordering = ['name', '-last_updated']
 
     # Methods
 
     def __str__(self):
         return self.id
+
+    def get_absolute_url(self):
+        return reverse('inventory-group-detail-view', args=[str(self.id)])

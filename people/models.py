@@ -8,7 +8,6 @@ class Person(models.Model):
     phone_number = models.CharField(max_length=10, blank=True, help_text='Enter person\'s full name.')
     email = models.EmailField(blank=True, help_text='Enter person\'s email.')
     thumbnail = models.ImageField(blank=True, help_text='Enter person\'s thumbnail image.')
-    slug = models.SlugField(max_length=100, unique=True, null=False, help_text='Enter a url-safe, unique, lower-case version of the person\'s name (required).')
 
     # Metadata
     class Meta:
