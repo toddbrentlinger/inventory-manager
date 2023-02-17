@@ -1,6 +1,86 @@
 import uuid
 from django.db import models
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
+
+# Abstract Models
+
+class ActionItem(models.Model):
+    # Fields
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    item = models.OneToOneField('Item', on_delete=models.CASCADE, help_text='Enter item associated with the action.')
+    date = models.DateField(blank=True, null=True, help_text='Enter date action occurred.')
+    reason = models.TextField(blank=True, help_text='Enter the reason for taking the action with the item.')
+    notes = models.TextField(blank=True, help_text='Enter any notes about the action.')
+
+    # Metadata
+
+    class Meta:
+        abstract = True
+
+    # Methods
+
+    def __str__(self):
+        return f'${self.id} - ${self.item}'
+
+class RecipientActionItem(ActionItem):
+    # Enumerations
+
+    class RecipientActionType(models.TextChoices):
+        BORROWED = 'BRWD', _('Borrowed')
+        GIFTED = 'GFTD', _('Gifted')
+        SOLD = 'SLD', _('Sold')
+
+    # Fields
+
+    reciever = models.ForeignKey('people.Person', on_delete=models.RESTRICT, help_text='Enter person who recieved the item.')
+    action_type = models.CharField(
+        max_length=4,
+        choices=RecipientActionType.choices,
+        default=RecipientActionType.BORROWED 
+    )
+
+    # Metadata
+
+    class Meta(ActionItem.Meta):
+        abstract = True
+
+    # Methods
+
+    def __str__(self):
+        pass
+
+# Concrete Models
+
+class BorrowedItem(RecipientActionItem):
+    # Fields
+
+    return_promise_date = models.DateField(help_text='Enter date item is to be returned.')
+    has_returned = models.BooleanField(default=False, help_text='Has item been returned?')
+
+    # Metadata
+
+    class Meta(RecipientActionItem.Meta):
+        pass
+
+    # Methods
+
+    def __str__(self):
+        pass
+
+class GiftedItem(RecipientActionItem):
+    # Fields
+
+    # Metadata
+
+    class Meta(RecipientActionItem.Meta):
+        pass
+
+    # Methods
+
+    def __str__(self):
+        pass
 
 class Image(models.Model):
     # Fields
@@ -56,3 +136,29 @@ class Item(models.Model):
 
     def get_absolute_url(self):
         return reverse('item-detail-view', args=[str(self.id)])
+
+class SoldItem(RecipientActionItem):
+    # Fields
+
+    # Metadata
+
+    class Meta(RecipientActionItem.Meta):
+        pass
+
+    # Methods
+
+    def __str__(self):
+        pass
+
+class ThrownAwayItem(ActionItem):
+    # Fields
+
+    # Metadata
+
+    class Meta(ActionItem.Meta):
+        pass
+
+    # Methods
+
+    def __str__(self):
+        pass

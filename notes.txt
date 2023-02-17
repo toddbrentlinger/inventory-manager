@@ -1,3 +1,10 @@
+2/17/23
+
+- Instead of having RecipientActionItem abstract class with many 
+different child classes, have RecipientActionItem concrete class 
+with CharField with choices of 'borrowed', 'gifted', 'sold', etc.
+Single Item should only have ONE RecipientActionItem.
+
 2/14/23
 
 - Instead of Price model, store price as American dollar cents and 
