@@ -5,9 +5,17 @@ from django.urls import reverse
 class Image(models.Model):
     # Fields
 
-    image_file = models.ImageField(help_text='Enter image file.')
-    width = models.IntegerField()
-    height = models.IntegerField()
+    # TODO: Can access height and width of image_file without opening file. Should remove width and height fields since they're not neccesary.
+    # Field 'title' can also be accessed inside image_file, however the name is the file name including directories and file type.
+    image_file = models.ImageField(
+        upload_to='uploads/images/%Y/%m/%d/',
+        storage=None, # TODO: Setup storage object https://docs.djangoproject.com/en/4.1/ref/models/fields/#django.db.models.FileField.storage
+        # width_field='width', 
+        # height_field='height', 
+        help_text='Enter image file.'
+    )
+    # width = models.SmallIntegerField(editable=False)
+    # height = models.IntegerField(editable=False)
     title = models.CharField(max_length=100, help_text='Enter title of the image (required).')
 
     # Metadata

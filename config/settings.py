@@ -125,6 +125,10 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Absolute filesystem path to the directory that will hold user-uploaded files
+# https://docs.djangoproject.com/en/4.1/ref/settings/#media-root
+
+MEDIA_ROOT = 'media/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/

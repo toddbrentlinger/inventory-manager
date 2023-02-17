@@ -2,7 +2,7 @@
 
 - Instead of Price model, store price as American dollar cents and 
 inside User model, have a Currency field that is used to convert base 
-price in model to selected currency. 
+price in model to user selected currency. 
 
 2/3/23
 
@@ -32,26 +32,26 @@ Item:
 	slug {SlugField} - Page displays info about item
 	state {ItemStateEnum} - Owned/InPossession, Borrowed, Gifted, Sold, ThrownAway
 
-ActionItem:
+ActionItem (Abstract):
 	*id {UUIDField}:
 	*item {OneToOneKey-Item}:
 	date {DateField}:
 	notes {TextField}:
 	reason {TextField}:
 
-BorrowItem extends ActionItem:
+ThrownAwayItem extends ActionItem:
+
+RecipientActionItem extends ActionItem (Abstract):
 	*reciever {ForeignKey-Person}:
+
+BorrowItem extends RecipientActionItem:
 	returnPromiseDate {DateField}:
 	hasReturned {BooleanField}:
 	- Page displays info about borrowed item (url uses id)
 
-GiftedItem extends ActionItem:
-	*reciever {ForeignKey-Person}:
+GiftedItem extends RecipientActionItem:
 
-SoldItem extends ActionItem:
-	*reciever {ForeignKey-Person}:
-
-ThrownAwayItem extends ActionItem:
+SoldItem extends RecipientActionItem:
 
 Person
 	*id {UUIDField}:
