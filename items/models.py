@@ -18,11 +18,12 @@ class ActionItem(models.Model):
 
     class Meta:
         abstract = True
+        ordering = ['-date', 'item']
 
     # Methods
 
     def __str__(self):
-        return f'${self.id} - ${self.item}'
+        return f'{self.date} - {self.item}'
 
 class RecipientActionItem(ActionItem):
     # Enumerations
@@ -48,9 +49,6 @@ class RecipientActionItem(ActionItem):
 
     # Methods
 
-    def __str__(self):
-        pass
-
 # Concrete Models
 
 class BorrowedItem(RecipientActionItem):
@@ -66,9 +64,6 @@ class BorrowedItem(RecipientActionItem):
 
     # Methods
 
-    def __str__(self):
-        pass
-
 class GiftedItem(RecipientActionItem):
     # Fields
 
@@ -79,34 +74,28 @@ class GiftedItem(RecipientActionItem):
 
     # Methods
 
-    def __str__(self):
-        pass
-
 class Image(models.Model):
     # Fields
 
     # TODO: Can access height and width of image_file without opening file. Should remove width and height fields since they're not neccesary.
     # Field 'title' can also be accessed inside image_file, however the name is the file name including directories and file type.
+    # TODO: Setup storage object https://docs.djangoproject.com/en/4.1/ref/models/fields/#django.db.models.FileField.storage
+    # TODO: Add username to file path 'uploads/images/<username>/%Y/%m/%d/'
     image_file = models.ImageField(
         upload_to='uploads/images/%Y/%m/%d/',
-        storage=None, # TODO: Setup storage object https://docs.djangoproject.com/en/4.1/ref/models/fields/#django.db.models.FileField.storage
-        # width_field='width', 
-        # height_field='height', 
+        storage=None,
         help_text='Enter image file.'
     )
-    # width = models.SmallIntegerField(editable=False)
-    # height = models.IntegerField(editable=False)
-    title = models.CharField(max_length=100, help_text='Enter title of the image (required).')
 
     # Metadata
 
     class Meta:
-        ordering = ['title']
+        ordering = ['image_file']
 
     # Methods
 
     def __str__(self):
-        return self.title
+        return self.image_file.name
 
 class Item(models.Model):
     # Fields
@@ -147,9 +136,6 @@ class SoldItem(RecipientActionItem):
 
     # Methods
 
-    def __str__(self):
-        pass
-
 class ThrownAwayItem(ActionItem):
     # Fields
 
@@ -159,6 +145,3 @@ class ThrownAwayItem(ActionItem):
         pass
 
     # Methods
-
-    def __str__(self):
-        pass
