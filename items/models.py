@@ -126,8 +126,15 @@ class Item(models.Model):
     def get_absolute_url(self):
         return reverse('item-detail-view', args=[str(self.id)])
 
+    def price_in_dollars(self):
+        return '$' + format(self.price/100, '.2f')
+
+    price_in_dollars.short_description = 'Price'
+
 class SoldItem(RecipientActionItem):
     # Fields
+
+    price_sold = models.IntegerField(blank=True, help_text='Enter price the item sold for in American cents (ex. $23.56 => 2356).')
 
     # Metadata
 
