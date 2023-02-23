@@ -64,6 +64,21 @@ class BorrowedItem(RecipientActionItem):
 
     # Methods
 
+class Brand(models.Model):
+    # Fields
+    
+    name = models.CharField(max_length=100, help_text='Enter name of brand (required).')
+
+    # Metadata
+
+    class Meta:
+        ordering = ['name',]
+
+    # Methods
+
+    def __str__(self):
+        return self.name
+
 class GiftedItem(RecipientActionItem):
     # Fields
 
@@ -104,6 +119,7 @@ class Item(models.Model):
     name = models.CharField(max_length=100, help_text='Enter name of item (required).')
     model_number = models.CharField(max_length=20, blank=True, help_text='Enter model number of item.')
     serial_number = models.CharField(max_length=20, blank=True, help_text='Enter serial number of the specific item.')
+    brand = models.ForeignKey(Brand, on_delete=models.SET_NULL, blank=True, null=True, help_text='Enter brand of the item.')
     description = models.TextField(blank=True, help_text='Enter description of the item.')
     price = models.IntegerField(blank=True, help_text='Enter price of item in American cents (ex. $23.56 => 2356).')
     # price = models.ForeignKey('Price', on_delete=models.PROTECT, blank=True, null=True, help_text='Enter the price of the item.')

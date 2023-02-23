@@ -1,17 +1,14 @@
 from django.contrib import admin
-from .models import BorrowedItem, GiftedItem, Image, Item, SoldItem, ThrownAwayItem
-
-# admin.site.register(BorrowedItem)
-# admin.site.register(GiftedItem)
-# admin.site.register(Image)
-# admin.site.register(Item)
-# admin.site.register(SoldItem)
-# admin.site.register(ThrownAwayItem)
+from .models import BorrowedItem, Brand, GiftedItem, Image, Item, SoldItem, ThrownAwayItem
 
 @admin.register(BorrowedItem)
 class BorrowedItemAdmin(admin.ModelAdmin):
     list_display = ['item', 'action_type', 'reciever', 'date', 'return_promise_date', 'has_returned',]
     list_filter = ('date', 'action_type', 'has_returned',)
+
+@admin.register(Brand)
+class BrandAdmin(admin.ModelAdmin):
+    pass
 
 @admin.register(GiftedItem)
 class GiftedItemAdmin(admin.ModelAdmin):
