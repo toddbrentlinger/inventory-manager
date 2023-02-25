@@ -16,5 +16,10 @@ class InventoryAdmin(admin.ModelAdmin):
 @admin.register(InventoryGroup)
 class InventoryGroupAdmin(admin.ModelAdmin):
     fields = ['inventory', 'name', 'items',]
-    list_display = ['inventory', 'name',]
+    filter_horizontal = ['items',]
+    list_display = ['inventory', 'name', 'item_count',]
     list_filter = ['last_modified',]
+
+    @admin.display(description='Items')
+    def item_count(self, obj):
+        return obj.items.count()

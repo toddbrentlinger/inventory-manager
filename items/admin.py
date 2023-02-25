@@ -20,6 +20,7 @@ class ImageAdmin(admin.ModelAdmin):
 
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
+    filter_horizontal = ['images',]
     list_display = ['name', 'price_in_dollars', 'purchase_date', 'last_modified',]
     list_filter = ('purchase_date', 'last_modified',)
 
