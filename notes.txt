@@ -1,3 +1,10 @@
+2/27/23
+
+- Use item 'state' to hold the current state of the item. Ex. borrowed, 
+gifted, sold, thrown out. Also use 'action_state_id' to hold uuid of child 
+model of ActionItem of the corresponding 'state' property.
+ISSUE: Possible to update 'state' without updating 'action_state_id'
+
 2/22/23
 
 X Add Brand model and field in Item. Could then filter by brand.

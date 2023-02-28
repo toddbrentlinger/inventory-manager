@@ -113,6 +113,15 @@ class Image(models.Model):
         return self.image_file.name
 
 class Item(models.Model):
+    # Enumerations
+
+    class ItemState(models.TextChoices):
+        IN_POSSESSION = '', _('In Possession')
+        BORROWED = 'BRWD', _('Borrowed')
+        GIFTED = 'GFTD', _('Gifted')
+        SOLD = 'SLD', _('Sold')
+        THROWN_AWAY  = 'THRWN', _('Thrown Away')
+
     # Fields
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -122,11 +131,14 @@ class Item(models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.SET_NULL, blank=True, null=True, help_text='Enter brand of the item.')
     description = models.TextField(blank=True, help_text='Enter description of the item.')
     price = models.IntegerField(blank=True, help_text='Enter price of item in American cents (ex. $23.56 => 2356).')
-    # price = models.ForeignKey('Price', on_delete=models.PROTECT, blank=True, null=True, help_text='Enter the price of the item.')
     purchase_date = models.DateField(blank=True, help_text='Enter date the item was purchased.')
     images = models.ManyToManyField(Image, blank=True, help_text='Enter any images of the item.')
-    # slug? - used for url of item
-    # state - Owned/InPossession, Borrowed, Gifted, Sold, ThrownAway
+    state = models.CharField(
+        max_length=5,
+        choices=ItemState.choices,
+        default=ItemState.IN_POSSESSION 
+    )
+    action_state_id = models.UUIDField(blank=True, null=True, help_text='Enter ID of ActionItem child model (ex. BorrowedItem id with matching Item id).')
     last_modified = models.DateTimeField(auto_now=True)
 
     # Metadata
