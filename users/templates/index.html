@@ -1,12 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventory Manager User</title>
-</head>
-<body>
-    <p>Inventory Manager User</p>
-</body>
-</html>
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>Inventory Manager</h1>
+
+    <p>Welcome to Inventory Manager, a website developed by <em>Todd Brentlinger</em>!</p>
+    
+    <h2>Dynamic content</h2>
+
+    <p>The inventory manager has the following data:</p>
+
+    <ul>
+        <li><strong>Inventories:</strong> {{ num_inventories }}</li>
+        <li><strong>Items:</strong> {{ num_items }}</li>
+        <li><strong>Borrowed Items:</strong> {{ num_borrowed_items }}</li>
+    </ul>
+{% endblock %}
