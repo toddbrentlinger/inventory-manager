@@ -13,8 +13,8 @@ def index(request):
 
     context = {
         'num_inventories': num_inventories,
-        'num_items': num_inventories,
-        'num_borrowed_items': num_inventories,
+        'num_items': num_items,
+        'num_borrowed_items': num_borrowed_items,
     }
 
     return render(request, 'index.html', context=context)

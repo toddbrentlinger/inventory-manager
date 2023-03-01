@@ -1,0 +1,153 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+:root {
+  --base-white: hsl(0, 0%, 95%);
+  --base-black: hsl(0, 0%, 10%);
+}
+
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+  color: var(--base-black, black);
+  background-color: var(--base-white, white);
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+body {
+  font-size: 1.6rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas: "header header" "main main" "footer footer";
+}
+
+header,
+#sidenav-header,
+#sidenav-list,
+main,
+footer {
+  padding: 1.8rem;
+}
+
+header {
+  grid-area: header;
+  display: flex;
+  justify-content: space-between;
+}
+
+#sidenav {
+  grid-area: sidenav;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 1;
+  transition: width 300ms ease;
+}
+
+#sidenav.open {
+  left: 0;
+}
+
+#sidenav-content-container {
+  background-color: var(--base-white, white);
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+}
+
+#sidenav-content {
+  height: 100%;
+  border-right: 2px solid var(--base-black, black);
+}
+
+#sidenav-header {
+  border-bottom: 2px solid var(--base-black, black);
+}
+
+#sidenav-list {
+  display: grid;
+  grid-template-columns: max-content;
+  gap: 1.6rem;
+  margin-right: 2rem;
+}
+
+#sidenav hr {
+  width: 100%;
+}
+
+#sidenav a {
+  display: block;
+}
+
+main {
+  grid-area: main;
+}
+
+footer {
+  font-size: 1.2rem;
+  grid-area: footer;
+  display: grid;
+  place-items: center;
+}/*# sourceMappingURL=styles.css.map */

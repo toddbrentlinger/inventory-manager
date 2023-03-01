@@ -13,11 +13,20 @@
     {% load static %}
 
     <!-- Add additional CSS in static file -->
-    <link rel="stylesheet" href="{% static 'config/css/meyer_reset.css' %}">
-    <link rel="stylesheet" href="{% static 'config/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/styles.css' %}">
     {% block custom-css %}{% endblock %}
+
+    <!-- Custom scripts -->
+    <script defer src="{% static 'users/js/index.js' %}"></script>
+    {% block custom-js %}{% endblock %}
 </head>
 <body>
+    <header>
+        <span class="hamburger-icon sidenav-expand-btn">
+            <i class="fas fa-bars fa-lg"></i>
+        </span>
+    </header>
+
     {% block sidenav %}
         <nav id="sidenav">
             <div id="sidenav-content-container">
