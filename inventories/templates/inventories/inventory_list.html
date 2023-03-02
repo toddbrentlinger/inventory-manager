@@ -1,0 +1,19 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Inventory List View{% endblock %}
+
+{% block content %}
+    <h1>Inventory List View</h1>
+
+    {% if inventory_list %}
+        <ul>
+            {% for inventory in inventory_list %}
+                <li>
+                    <a href="{{ inventory.get_absolute_url }}">{{ inventory }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>There are NO inventories!</p>
+    {% endif %}
+{% endblock %}

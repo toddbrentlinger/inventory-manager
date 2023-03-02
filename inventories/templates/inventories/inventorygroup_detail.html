@@ -1,0 +1,23 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Inventory Group Detail {{ inventorygroup.id }}{% endblock %}
+
+{% block content %}
+    <h1>{{ inventorygroup.inventory.user }}'s Inventory of {{ inventorygroup.name }}</h1>
+
+    <p><strong>ID:</strong> {{ inventorygroup.id }}</p>
+
+    <h2>Items:</h2>
+
+    {% if inventorygroup.items %}
+        <ul>
+            {% for item in inventorygroup.items.set.all %}
+                <li>
+                    <a href="{{ item.get_absolute_url }}">{{ item }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>There are NO items!</p>
+    {% endif %}
+{% endblock %}

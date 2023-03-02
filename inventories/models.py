@@ -20,7 +20,7 @@ class Inventory(models.Model):
         return str(self.user)
 
     def get_absolute_url(self):
-        return reverse('inventory-detail-view', args=[str(self.id)])
+        return reverse('inventory-detail', args=[str(self.id)])
 
 class InventoryGroup(models.Model):
      # Fields
@@ -42,4 +42,4 @@ class InventoryGroup(models.Model):
         return f'{self.inventory.user} ({self.name})'
 
     def get_absolute_url(self):
-        return reverse('inventory-group-detail-view', args=[str(self.id)])
+        return reverse('inventorygroup-detail', args=[str(self.id)])

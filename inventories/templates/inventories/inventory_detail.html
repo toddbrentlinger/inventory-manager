@@ -1,0 +1,18 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Inventory Detail {{ inventory.id }}{% endblock %}
+
+{% block content %}
+    <h1>{{ inventory.user }}'s Inventory</h1>
+
+    <p><strong>ID:</strong> {{ inventory.id }}</p>
+
+    <div style="margin-left:20px;margin-top:20px">
+        <h4>Inventory Groups</h4>
+
+        {% for inventorygroup in inventory.inventorygroup_set.all %}
+            <hr>
+            <a href="{{ inventorygroup.get_absolute_url }}">{{ inventorygroup.name }}</a>
+        {% endfor %}
+    </div>
+{% endblock %}
