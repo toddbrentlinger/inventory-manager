@@ -116,7 +116,7 @@ class Item(models.Model):
     # Enumerations
 
     class ItemState(models.TextChoices):
-        IN_POSSESSION = '', _('In Possession')
+        IN_POSSESSION = 'POS', _('In Possession')
         BORROWED = 'BRWD', _('Borrowed')
         GIFTED = 'GFTD', _('Gifted')
         SOLD = 'SLD', _('Sold')
@@ -152,7 +152,7 @@ class Item(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('item-detail-view', args=[str(self.id)])
+        return reverse('item-detail', args=[str(self.id)])
 
     def price_in_dollars(self):
         return '$' + format(self.price/100, '.2f')

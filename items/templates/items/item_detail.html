@@ -1,0 +1,25 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Item Detail {{ item.id }}{% endblock %}
+
+{% block content %}
+    <h1>{{ item.name }}</h1>
+
+    <p><strong>ID:</strong> {{ item.id }}</p>
+    <p><strong>Model Number:</strong> {{ item.model_number }}</p>
+    <p><strong>Serial Number:</strong> {{ item.serial_number }}</p>
+    <p><strong>Brand:</strong> {{ item.brand }}</p>
+    <p><strong>Description:</strong> {{ item.description }}</p>
+    <p><strong>Price:</strong> {{ item.price_in_dollars }}</p>
+    <p><strong>Purchase Date:</strong> {{ item.purchase_date }}</p>
+    <p><strong>Current State:</strong> {{ item.get_state_display }}</p>
+    <p><strong>Last Modified:</strong> {{ item.last_modified }}</p>
+
+    <p><strong>Images:</strong></p>
+    {% for image in item.images.all %}
+        <p>{{ image }}</p>
+        <img src="{{ image.url }}" alt="">
+    {% empty %}
+        <p>No images for the item!</p>
+    {% endfor %}
+{% endblock %}

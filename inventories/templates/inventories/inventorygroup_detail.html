@@ -11,13 +11,13 @@
 
     {% if inventorygroup.items %}
         <ul>
-            {% for item in inventorygroup.items.set.all %}
+            {% for item in inventorygroup.items.all %}
                 <li>
                     <a href="{{ item.get_absolute_url }}">{{ item }}</a>
                 </li>
             {% endfor %}
         </ul>
     {% else %}
-        <p>There are NO items!</p>
+        <p>There are NO items in this inventory group!</p>
     {% endif %}
 {% endblock %}
