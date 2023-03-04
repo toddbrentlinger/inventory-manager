@@ -4,6 +4,7 @@ from .models import Inventory, InventoryGroup
 
 class InventoryListView(generic.ListView):
     model = Inventory
+    paginate_by = 25
 
 class InventoryDetailView(generic.DetailView):
     model = Inventory

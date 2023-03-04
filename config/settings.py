@@ -70,6 +70,7 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                'django.template.context_processors.media',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -128,7 +129,12 @@ USE_TZ = True
 # Absolute filesystem path to the directory that will hold user-uploaded files
 # https://docs.djangoproject.com/en/4.1/ref/settings/#media-root
 
-MEDIA_ROOT = 'media/'
+MEDIA_ROOT = '/Users/toddb/source/repos/inventory-manager/media/'
+
+# URL that handles the media served from MEDIA_ROOT, used for managing stored files
+# https://docs.djangoproject.com/en/4.1/ref/settings/#media-url
+
+MEDIA_URL = 'media/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
@@ -143,7 +149,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.User'
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
+
 LOGIN_REDIRECT_URL = '/'
 
 # Allows testing of password reset sent to email
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

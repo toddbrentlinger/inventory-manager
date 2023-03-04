@@ -17,8 +17,7 @@
 
     <p><strong>Images:</strong></p>
     {% for image in item.images.all %}
-        <p>{{ image }}</p>
-        <img src="{{ image.url }}" alt="">
+        <img src="{{ MEDIA_URL }}{{ image }}" alt="" width="20%" height="auto">
     {% empty %}
         <p>No images for the item!</p>
     {% endfor %}

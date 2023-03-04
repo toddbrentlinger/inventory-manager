@@ -1,0 +1,19 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Item List View{% endblock %}
+
+{% block content %}
+    <h1>Item List View</h1>
+
+    {% if item_list %}
+        <ul>
+            {% for item in item_list %}
+                <li>
+                    <a href="{{ item.get_absolute_url }}">{{ item }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>There are NO items!</p>
+    {% endif %}
+{% endblock %}

@@ -23,4 +23,10 @@ urlpatterns = [
     path('', include('users.urls')),
     path('inventories/', include('inventories.urls')),
     path('items/', include('items.urls')),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]
+
+# Static files
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) 
+
+# Media files
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

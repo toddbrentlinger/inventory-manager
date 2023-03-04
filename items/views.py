@@ -2,6 +2,10 @@ from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from .models import Item
 
+class ItemListView(generic.ListView):
+    model = Item
+    paginate_by = 25
+
 class ItemDetailView(generic.DetailView):
     model = Item
 
