@@ -1,5 +1,7 @@
 {% extends "base_generic.html" %}
 
+{% load users_tags %}
+
 {% block content %}
     <h1>Inventory Manager</h1>
 
@@ -14,4 +16,8 @@
         <li><strong>Items:</strong> {{ num_items }}</li>
         <li><strong>Borrowed Items:</strong> {{ num_borrowed_items }}</li>
     </ul>
+
+    <p>You have visited this page {{ num_visits }} time{{ num_visits|pluralize }}.</p>
+    <p>Last Visit Timestamp: {% timestamp_to_datetime_format datetime_timestamp_last_visited %}</p>
+    <p>Last Visit Time Delta: {% duration_from_now datetime_timestamp_last_visited %}</p>
 {% endblock %}
