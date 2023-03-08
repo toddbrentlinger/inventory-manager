@@ -18,6 +18,5 @@
     </ul>
 
     <p>You have visited this page {{ num_visits }} time{{ num_visits|pluralize }}.</p>
-    <p>Last Visit Timestamp: {% timestamp_to_datetime_format datetime_timestamp_last_visited %}</p>
-    <p>Last Visit Time Delta: {% duration_from_now datetime_timestamp_last_visited %}</p>
+    <p>Last Visit: {% timestamp_to_datetime_format datetime_timestamp_last_visited %} - {% duration_from_now datetime_timestamp_last_visited %} ago</p>
 {% endblock %}

@@ -12,8 +12,13 @@ def timestamp_to_datetime_format(timestamp):
 @register.simple_tag
 def duration_from_now(past_timestamp):
     current_datetime = datetime.datetime.now()
+    # A timedelta object between current datetime and datetime using past_timestamp
     timedelta = current_datetime - datetime.datetime.fromtimestamp(past_timestamp)
+    # Dictionary keys are string of singular time unit (ex. day, minute, second).
+    # Dictionary values are whole number integers of the corresponding time unit.
     duration_units = {}
+
+    # Only add units with non-zero values to duration_units dictionary
 
     # Days
     if timedelta.days:
@@ -34,13 +39,14 @@ def duration_from_now(past_timestamp):
     if seconds:
         duration_units['second'] = seconds
 
+    # Convert duration_units dictionary to single string
     duration_units_list = list(enumerate(duration_units))
     output_str = ''
-    for index, duration_unit_tuple in enumerate(duration_units_list):
-        output_str += f'{duration_unit_tuple[0]} {duration_unit_tuple[1]}'
-        if duration_unit_tuple[0] > 1:
+    for index, duration_unit_key in duration_units_list:
+        output_str += f'{duration_units[duration_unit_key]} {duration_unit_key}'
+        if duration_units[duration_unit_key] > 1:
             output_str += 's'
         if index < len(duration_units_list) - 1:
             output_str += ', '
 
-    return output_str + str(duration_units) + str(duration_units_list)
+    return output_str
