@@ -13,6 +13,12 @@ class InventoryGroupInline(admin.TabularInline):
 class InventoryAdmin(admin.ModelAdmin):
     inlines = [InventoryGroupInline, ]
 
+    def has_view_permission(self, request, obj=None):
+        if self.model.user != request.user:
+            return False
+        
+        return super().has_view_permission(request, obj)
+
 @admin.register(InventoryGroup)
 class InventoryGroupAdmin(admin.ModelAdmin):
     fields = ['inventory', 'name', 'items',]

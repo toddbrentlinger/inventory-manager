@@ -12,7 +12,7 @@ class Inventory(models.Model):
     # Metadata
 
     class Meta:
-        pass
+        ordering = ['user__username',]
 
     # Methods
 

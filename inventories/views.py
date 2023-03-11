@@ -1,3 +1,4 @@
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from .models import Inventory, InventoryGroup
@@ -12,11 +13,16 @@ class InventoryDetailView(generic.DetailView):
 def inventory_detail_view(request, pk):
     inventory = get_object_or_404(Inventory, pk=pk)
 
+    # Check if user has access to inventory
+    if request.user != inventory.user:
+        raise PermissionDenied
+
     context = {
-        inventory,
+        'inventory': inventory,
+        'user': request.user,
     }
 
-    return render(request, 'inventories/inventory_detail_html', context=context)
+    return render(request, 'inventories/inventory_detail.html', context=context)
 
 class InventoryGroupDetailView(generic.DetailView):
     model = InventoryGroup
