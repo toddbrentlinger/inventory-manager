@@ -22,7 +22,6 @@ def inventory_detail_view(request, pk):
 
     context = {
         'inventory': inventory,
-        'user': request.user,
     }
 
     return render(request, 'inventories/inventory_detail.html', context=context)

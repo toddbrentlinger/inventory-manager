@@ -31,3 +31,12 @@ urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # Media files
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+'''
+inventory-manager/ -> Home Site
+inventory-manager/<username>/ -> User Page (displays user stats)
+inventory-manager/<username>/inventory/ -> List of inventory groups and stats about each
+inventory-manager/<username>/inventory/<InventoryGroup>/ -> List of items inside InventoryGroup with stats about each
+inventory-manager/<username>/items/ -> List of all items in all inventory groups
+inventory-manager/<username>/inventory/items/<ItemId>/ -> Detail about single item
+'''

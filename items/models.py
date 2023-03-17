@@ -125,6 +125,7 @@ class Item(models.Model):
     # Fields
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    inventory = models.ForeignKey('inventories.Inventory', on_delete=models.CASCADE, help_text='Enter inventory that contains the item.')
     name = models.CharField(max_length=100, help_text='Enter name of item (required).')
     model_number = models.CharField(max_length=20, blank=True, help_text='Enter model number of item.')
     serial_number = models.CharField(max_length=20, blank=True, help_text='Enter serial number of the specific item.')
