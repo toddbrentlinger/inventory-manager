@@ -141,6 +141,10 @@ header {
   display: block;
 }
 
+.sidenav-expand-btn {
+  cursor: pointer;
+}
+
 main {
   grid-area: main;
 }

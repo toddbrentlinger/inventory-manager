@@ -30,11 +30,11 @@ class InventoryGroupDetailView(LoginRequiredMixin, generic.DetailView):
     model = InventoryGroup
 
 @login_required
-def inventory_group_detail_view(request, pk):
-    inventory_group = get_object_or_404(InventoryGroup, pk=pk)
+def inventorygroup_detail_view(request, pk):
+    inventorygroup = get_object_or_404(InventoryGroup, pk=pk)
 
     context = {
-        inventory_group,
+        inventorygroup,
     }
 
-    return render(request, 'inventories/inventory_group_detail.html', context=context)
+    return render(request, 'inventories/inventorygroup_detail.html', context=context)
