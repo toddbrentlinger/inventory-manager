@@ -1,5 +1,5 @@
 from decouple import config
-from django.contrib.auth import get_user_model
+from django.conf import settings
 from pandas_ods_reader import read_ods
 
 import pandas as pd
@@ -24,7 +24,19 @@ class Models:
 
         # Users
 
-        self.User = get_user_model()
+        self.User = apps.get_model('users', 'User')
+
+def add_model_inst_list_to_field(m2m_field, model_inst_list):
+    '''
+    Adds list of model instances to ManyToManyField.
+
+    Parameters:
+        m2m_field (ManyToManyField):
+        model_inst_list (Model[]):
+    '''
+    for model_inst in model_inst_list:
+        model_inst.save()
+        m2m_field.add(model_inst)
 
 def initialize_database(apps, schema_editor):
     models = Models(apps)
@@ -32,6 +44,24 @@ def initialize_database(apps, schema_editor):
     # Create two test users to add items to their inventory and save them to the database
     user1 = models.User.objects.create_user('user1', 'user1@mail.com', 'password1')
     user2 = models.User.objects.create_user('user2', 'user2@mail.com', 'password2')
+
+    # Create Inventory for each user
+    inventory1 = models.Inventory.objects.create(user=user1)
+    inventory2 = models.Inventory.objects.create(user=user2)
+
+    # Create "Tools" InventoryGroup for each inventory to fill with tool Items
+    toolGroup1 = models.InventoryGroup(inventory=inventory1, name='Tools')
+    toolGroup2 = models.InventoryGroup(inventory=inventory2, name='Tools')
+
+    # Dictionary to hold model instances for ManyToManyFields.
+    # Key is field name and value is list of model instances.
+    # After other fields in Item instance are set and it's saved to database,
+    # can then add to the actual ManyToManyFields.
+    # NOTE: One dict for each user's InventoryGroup
+    inventorygroup_m2m_instances_dict = [
+        { 'items': [], },
+        { 'items': [], },
+    ]
 
     # Import tool inventory spreadsheet ODS file, returning Pandas.DataFrame object
     df = read_ods(config('TOOL_INVENTORY_SPREADSHEET_FILE_LOCATION'))
@@ -46,21 +76,33 @@ def initialize_database(apps, schema_editor):
         # Create Item object
         item = models.Item()
 
-        # Inventory
-        # Name
-        # Model Number
-        # Serial Number
-        # Brand
-        # Description
-        # Price
-        # Purchase Date
-        # Images
+        # Inventory (ForeignKey)
+        # Add tool Item to first or second Users Inventory
+        item.inventory = inventory1 if index < user1_number_items else inventory2
+
+        # Name (Char)
+        item.name = row[1]
+
+        # Model Number (Char)
+        item.model_number = row[2] if row[2] is not None else ''
+
+        # Serial Number (Char)
+        # Brand (ForeignKey)
+        # Description (Text)
+
+        # Price (Integer) - number of American cents
+        # Skip if value is NaN or null using pandas library
+        if pd.notna(row[3]):
+            item.price = row[3] * 100
+
+        # Purchase Date - (Date)
+        # Images - (ManyToMany)
 
         # Dictionary to hold model instances for ManyToManyFields.
         # Key is field name and value is list of model instances.
         # After other fields in Item instance are set and it's saved to database,
         # can then add to the actual ManyToManyFields.
-        manytomany_instances_dict = {
+        item_m2m_instances_dict = {
             'images': [],
         }
 
@@ -68,6 +110,21 @@ def initialize_database(apps, schema_editor):
         item.save()
 
         # Now that Item is saved to database, add ManyToManyFields
+        add_model_inst_list_to_field(item.images, item_m2m_instances_dict['images'])
+
+        # Add tool Item to first or second Users "Tools" InventoryGroup
+        if index < user1_number_items:
+            inventorygroup_m2m_instances_dict[0]['items'].append(item)
+        else:
+            inventorygroup_m2m_instances_dict[1]['items'].append(item)
+
+    # Save "Tool" InventoryGroup objects to database
+    toolGroup1.save()
+    toolGroup2.save()
+
+    # Now that InventoryGroup is saved to database, add ManyToManyFields
+    add_model_inst_list_to_field(toolGroup1.items, inventorygroup_m2m_instances_dict[0]['items'])
+    add_model_inst_list_to_field(toolGroup2.items, inventorygroup_m2m_instances_dict[1]['items'])
 
 def main():
     # By default the first sheet is imported, returning Pandas.DataFrame object

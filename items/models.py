@@ -131,8 +131,8 @@ class Item(models.Model):
     serial_number = models.CharField(max_length=20, blank=True, help_text='Enter serial number of the specific item.')
     brand = models.ForeignKey(Brand, on_delete=models.SET_NULL, blank=True, null=True, help_text='Enter brand of the item.')
     description = models.TextField(blank=True, help_text='Enter description of the item.')
-    price = models.IntegerField(blank=True, help_text='Enter price of item in American cents (ex. $23.56 => 2356).')
-    purchase_date = models.DateField(blank=True, help_text='Enter date the item was purchased.')
+    price = models.IntegerField(blank=True, null=True, help_text='Enter price of item in American cents (ex. $23.56 => 2356).')
+    purchase_date = models.DateField(blank=True, null=True, help_text='Enter date the item was purchased.')
     images = models.ManyToManyField(Image, blank=True, help_text='Enter any images of the item.')
     state = models.CharField(
         max_length=5,
