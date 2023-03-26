@@ -104,6 +104,10 @@ def initialize_database(apps, schema_editor):
     # Half of items assigned to each user
     user1_number_items = len(df_filtered) // 2
 
+    # Used to hold previous valid purchase date in case Item row has non-valid
+    # value in column
+    prev_purchase_date = None
+
     for index, row in enumerate(df_filtered):
         # Create Item object
         item = models.Item()
@@ -134,7 +138,7 @@ def initialize_database(apps, schema_editor):
                 # Get or create Brand model instance
                 item.brand = models.Brand.objects.get_or_create(
                     name=brand
-                )
+                )[0]
 
         # Description (Text)
 
@@ -144,15 +148,23 @@ def initialize_database(apps, schema_editor):
             item.price = row[3] * 100
 
         # Purchase Date - (Date)
-        # TODO: Keep variable of last purchase date for items with same 
-        # purchase date in combined data cells
+        # If purchase date column is NOT blank, assign to item AND assign to 
+        # prev_purchase_date for items next in loop.
+        if pd.notna(row[4]):
+            item.purchase_date = row[4]
+            prev_purchase_date = row[4]
+        # If purchase date is blank AND prev_purchase_date has a valid date,
+        # assign prev_purchase_date to item.
+        elif prev_purchase_date is not None:
+            item.purchase_date = prev_purchase_date
 
         # Images - (ManyToMany)
-        # TODO: Use requests library to access image from url
-        response = requests.get(row[4])
-        if response.status_code == 200:
-            image_content = ContentFile(response.content)
-            item_m2m_instances_dict['images'].append(image_content)
+        if pd.notna(row[5]):
+            response = requests.get(row[5])
+            if response.status_code == 200:
+                image_content = ContentFile(response.content, name=item.name)
+                image_inst = models.Image.objects.get_or_create(image_file=image_content)[0]
+                item_m2m_instances_dict['images'].append(image_inst)
 
         # Save Item object to database
         item.save()

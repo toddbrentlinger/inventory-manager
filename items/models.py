@@ -156,7 +156,10 @@ class Item(models.Model):
         return reverse('item-detail', args=[str(self.id)])
 
     def price_in_dollars(self):
-        return '$' + format(self.price/100, '.2f')
+        if self.price:
+            return '$' + format(self.price/100, '.2f')
+        else:
+            return '-'
 
     price_in_dollars.short_description = 'Price'
 
