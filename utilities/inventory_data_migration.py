@@ -1,6 +1,7 @@
 from decouple import config
 from django.conf import settings
 from django.core.files.base import ContentFile
+from django.utils.text import slugify
 from pandas_ods_reader import read_ods
 
 import pandas as pd
@@ -162,9 +163,12 @@ def initialize_database(apps, schema_editor):
         if pd.notna(row[5]):
             response = requests.get(row[5])
             if response.status_code == 200:
-                image_content = ContentFile(response.content, name=item.name)
-                image_inst = models.Image.objects.get_or_create(image_file=image_content)[0]
-                item_m2m_instances_dict['images'].append(image_inst)
+                match = re.search('[\w.-]+\.[a-zA-Z0-9]+$', row[5])
+                filename = match.group() if match is not None else (slugify(item.name) + '.jpg')
+                img_content = ContentFile(response.content, name=filename)
+                img_inst = models.Image.objects.get_or_create(image_file=img_content)[0]
+                
+                item_m2m_instances_dict['images'].append(img_inst)
 
         # Save Item object to database
         item.save()
