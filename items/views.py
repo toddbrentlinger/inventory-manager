@@ -2,14 +2,16 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, get_object_or_404
-from django.views import generic
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Item
 
-class ItemListView(LoginRequiredMixin, generic.ListView):
+class ItemListView(LoginRequiredMixin, ListView):
     model = Item
     paginate_by = 25
 
-class ItemDetailView(LoginRequiredMixin, generic.DetailView):
+class ItemDetailView(LoginRequiredMixin, DetailView):
     model = Item
 
 @login_required
@@ -25,3 +27,21 @@ def item_detail_view(request, pk):
     }
 
     return render(request, 'items/item_detail.html', context=context)
+
+class ItemCreate(CreateView):
+    model = Item
+    fields = [
+        'inventory', 'name', 'model_number', 'serial_number', 'brand', 
+        'description', 'price', 'purchase_date', 'images',
+    ]
+
+class ItemUpdate(UpdateView):
+    model = Item
+    fields = [
+        'inventory', 'name', 'model_number', 'serial_number', 'brand', 
+        'description', 'price', 'purchase_date', 'images',
+    ]
+    
+class ItemDelete(DeleteView):
+    model = Item
+    success_url = reverse_lazy('index')

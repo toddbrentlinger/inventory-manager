@@ -1,3 +1,8 @@
+3/28/23
+
+- Add translatable text to help_text model field attributes.
+ex. _('help text')
+
 2/27/23
 
 - Use item 'state' to hold the current state of the item. Ex. borrowed, 
