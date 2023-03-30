@@ -18,12 +18,15 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
+from users.views import index
+
 urlpatterns = [
-    path('', include('users.urls')),
+    path('', index, name='index'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('admin/', admin.site.urls),
     path('inventories/', include('inventories.urls')),
     path('items/', include('items.urls')),
+    path('users/', include('users.urls')),
 ]
 
 # Static files

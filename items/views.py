@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Item
+from users.models import User
 
 class ItemListView(LoginRequiredMixin, ListView):
     model = Item
@@ -13,6 +14,17 @@ class ItemListView(LoginRequiredMixin, ListView):
 
 class ItemDetailView(LoginRequiredMixin, DetailView):
     model = Item
+
+@login_required
+def item_list_view(request, pk):
+    user = get_object_or_404(User, pk=pk)
+
+    # Check if user has access to inventory
+    if request.user != user:
+        raise PermissionDenied
+    
+    # TODO: Continue...
+    user_items = []
 
 @login_required
 def item_detail_view(request, pk):
