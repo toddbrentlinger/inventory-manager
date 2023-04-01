@@ -46,7 +46,9 @@
                         {% if user.is_authenticated %}
                             <div>
                                 <span>User: </span>
-                                <a href="/users/{{ user.id }}">{{ user.get_username }}</a>
+                                {% with username=user.get_username %}
+                                    <a href="/users/{{ username }}">{{ username }}</a>
+                                {% endwith %}
                             </div>
                             <a href="{% url 'logout' %}?next={{ request.path }}">Logout</a>
                         {% else %}

@@ -45,3 +45,15 @@ def user_detail_view(request, pk):
     }
 
     return render(request, 'users/user_detail.html', context=context)
+
+def user_detail_view_username(request, username):
+    '''Detail view for User model.'''
+
+    user = get_object_or_404(User, username=username)
+
+    context = {
+        'user': user,
+    }
+
+    return render(request, 'users/user_detail.html', context=context)
+
