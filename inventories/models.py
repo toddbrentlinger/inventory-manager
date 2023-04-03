@@ -7,7 +7,7 @@ class Inventory(models.Model):
     # Fields
     
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, help_text='Enter user that owns the inventory (required).')
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, unique=True, help_text='Enter user that owns the inventory (required).')
 
     # Metadata
 
@@ -20,7 +20,8 @@ class Inventory(models.Model):
         return str(self.user)
 
     def get_absolute_url(self):
-        return reverse('inventory-detail', args=[str(self.id)])
+        #return reverse('inventory-detail', args=[str(self.id)])
+        return reverse('inventory-detail', kwargs={'username': self.user.username})
 
 class InventoryGroup(models.Model):
      # Fields
