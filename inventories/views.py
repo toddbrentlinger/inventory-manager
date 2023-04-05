@@ -29,8 +29,12 @@ def inventory_detail_view_old(request, pk):
 
 @login_required
 def inventory_detail_view(request, username):
-    user = get_object_or_404(get_user_model(), username=username)
+    user = get_object_or_404(get_user_model(), username=username)    
     inventory = get_object_or_404(Inventory, user=user)
+
+    # Check if user making request has access to inventory
+    if not inventory.user_has_permission(request.user):
+        raise PermissionDenied
 
     context = {
         'inventory': inventory,
@@ -38,16 +42,34 @@ def inventory_detail_view(request, username):
 
     return render(request, 'inventories/inventory_detail.html', context=context)
 
-
 class InventoryGroupDetailView(LoginRequiredMixin, generic.DetailView):
     model = InventoryGroup
 
 @login_required
-def inventorygroup_detail_view(request, pk):
+def inventorygroup_detail_view_old(request, pk):
     inventorygroup = get_object_or_404(InventoryGroup, pk=pk)
 
     context = {
         inventorygroup,
+    }
+
+    return render(request, 'inventories/inventorygroup_detail.html', context=context)
+
+@login_required
+def inventorygroup_detail_view(request, pk, username):
+    user = get_object_or_404(get_user_model(), username=username)
+    inventorygroup = get_object_or_404(InventoryGroup, pk=pk)
+
+    # Check that inventorygroup instance has matching user
+    if inventorygroup.inventory.user != user:
+        raise PermissionDenied
+
+    # Check if user making request has access to inventory
+    if not inventorygroup.inventory.user_has_permission(request.user):
+        raise PermissionDenied
+
+    context = {
+        'inventorygroup': inventorygroup,
     }
 
     return render(request, 'inventories/inventorygroup_detail.html', context=context)

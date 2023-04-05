@@ -153,7 +153,7 @@ class Item(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('item-detail', args=[str(self.id)])
+        return reverse('item-detail', kwargs={'pk': str(self.id), 'username': self.inventory.user.username})
 
     def price_in_dollars(self):
         if self.price:
